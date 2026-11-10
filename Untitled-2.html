@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#061b49">
+<title>Paradise Assembly Church</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#061b49;
+ color:white;
+ font-family:Georgia,"Times New Roman",serif;
+}
+header{
+ background:#03112f;
+ text-align:center;
+ padding:22px 12px;
+ border-bottom:3px solid #e9bd38;
+}
+header h1{color:#e9bd38;margin:5px}
+nav{
+ display:flex;flex-wrap:wrap;justify-content:center;
+ gap:16px;padding:15px;background:#09265c;
+}
+nav a{color:white;text-decoration:none;font-size:14px}
+nav a:hover{color:#e9bd38}
+.hero{
+ text-align:center;padding:90px 20px;
+ background:linear-gradient(120deg,#061b49,#164b92);
+}
+.hero h2{font-size:35px;color:#fbff00}
+button{
+ background:#fbff00;color:#0059ff;
+ border:0;padding:12px 18px;border-radius:5px;
+ font-family:Georgia;cursor:pointer;font-weight:bold;
+}
+section{padding:35px 18px;max-width:1050px;margin:auto}
+h2{color:#e9bd38}
+.card{
+ background:#0c2c63;padding:20px;margin:14px 0;
+ border:1px solid #b99535;border-radius:10px;
+}
+.grid{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+ gap:15px;
+}
+input,textarea,select{
+ width:100%;padding:12px;margin:8px 0;
+ border-radius:5px;border:1px solid #ddd;
+ font-family:Georgia;
+}
+textarea{min-height:90px}
+img{max-width:100%;border-radius:8px}
+.photo{width:100%;height:190px;object-fit:cover}
+.profile{text-align:center}
+.profile img{height:180px;width:100%;object-fit:cover}
+#adminPanel,#loginPanel{display:none}
+footer{
+ text-align:center;padding:30px;background:#03112f;
+ border-top:3px solid #e9bd38;
+}
+.small{font-size:13px;color:#ddd}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1 id="churchName">PARADISE ASSEMBLY CHURCH</h1>
+<p id="motto">WORSHIP • FELLOWSHIP • EVANGELISM</p>
+</header>
+
+<nav>
+<a href="#home">HOME</a>
+<a href="#about">ABOUT</a>
+<a href="#leadership">LEADERSHIP</a>
+<a href="#activities">ACTIVITIES</a>
+<a href="#music">SONG LEADERS</a>
+<a href="#events">PROGRAMMES</a>
+<a href="#announcements">ANNOUNCEMENTS</a>
+<a href="#gallery">GALLERY</a>
+<a href="#sermons">SERMONS</a>
+<a href="#prayer">PRAYER</a>
+<a href="#contact">CONTACT</a>
+<a href="#admin" onclick="showAdmin()">ADMIN</a>
+</nav>
+
+<div class="hero" id="home">
+<h2>WELCOME TO PARADISE ASSEMBLY</h2>
+<p>A place where faith grows, lives are transformed and destinies are fulfilled.</p>
+<p>Come and experience the presence of God.</p>
+<a href="#events"><button>VIEW OUR PROGRAMMES</button></a>
+</div>
+
+<section id="about">
+<h2>ABOUT OUR CHURCH</h2>
+<div class="card">
+<p id="aboutText">Welcome to Paradise Assembly Church. We are committed to worship, prayer, evangelism, fellowship and the teaching of God's Word.</p>
+<h3>OUR VISION</h3>
+<p id="vision">To be updated by church leadership.</p>
+<h3>OUR MISSION</h3>
+<p id="mission">To be updated by church leadership.</p>
+<h3>OUR HISTORY</h3>
+<p id="history">Church history will be provided by the leadership.</p>
+</div>
+</section>
+
+<section id="leadership">
+<h2>CHURCH LEADERSHIP</h2>
+<div class="grid" id="leadersList"></div>
+</section>
+
+<section id="activities">
+<h2>CHURCH ACTIVITIES & DEPARTMENTS</h2>
+<div class="grid" id="activitiesList"></div>
+</section>
+
+<section id="music">
+<h2>SONG LEADERS & MUSIC MINISTRY</h2>
+<div class="grid" id="musicList"></div>
+</section>
+
+<section id="events">
+<h2>UPCOMING PROGRAMMES & EVENTS</h2>
+<div id="eventsList"></div>
+</section>
+
+<section id="announcements">
+<h2>CHURCH ANNOUNCEMENTS</h2>
+<div id="announcementsList"></div>
+</section>
+
+<section id="gallery">
+<h2>CHURCH PHOTO GALLERY</h2>
+<div class="grid" id="galleryList"></div>
+</section>
+
+<section id="sermons">
+<h2>SERMONS & AUDIO MESSAGES</h2>
+<div id="sermonsList"></div>
+</section>
+
+<section id="prayer">
+<h2>PRAYER REQUEST</h2>
+<div class="card">
+<form onsubmit="submitPrayer(event)">
+<input id="prayerName" placeholder="Your name" required>
+<input id="prayerPhone" placeholder="Your phone number">
+<textarea id="prayerText" placeholder="Write your prayer request" required></textarea>
+<button>SUBMIT PRAYER REQUEST</button>
+</form>
+</div>
+</section>
+
+<section id="testimonies">
+<h2>TESTIMONIES</h2>
+<div id="testimoniesList"></div>
+</section>
+
+<section id="contact">
+<h2>CONTACT US</h2>
+<div class="card">
+<p>Church: <span id="contactName">Paradise Assembly Church</span></p>
+<p>Location: <span id="location">Apesika, Ghana</span></p>
+<p>Telephone: <span id="phone">To be provided</span></p>
+<p>Email: <span id="email">To be provided</span></p>
+<p>Facebook: <span id="facebook">To be provided</span></p>
+</div>
+</section>
+
+<section id="admin">
+<h2>ADMINISTRATION</h2>
+
+<div class="card" id="loginPanel">
+<h3>ADMIN LOGIN</h3>
+<input id="username" placeholder="Admin username">
+<input id="password" type="password" placeholder="Admin password">
+<button onclick="login()">LOGIN</button>
+<p id="error"></p>
+</div>
+
+<div class="card" id="adminPanel">
+<h2>ADMIN DASHBOARD</h2>
+<p>Manage the church website content below.</p>
+
+<h3>General Church Information</h3>
+<input id="aName" placeholder="Church name">
+<input id="aMotto" placeholder="Church motto">
+<textarea id="aAbout" placeholder="About church"></textarea>
+<textarea id="aVision" placeholder="Church vision"></textarea>
+<textarea id="aMission" placeholder="Church mission"></textarea>
+<textarea id="aHistory" placeholder="Church history"></textarea>
+<input id="aLocation" placeholder="Church location">
+<input id="aPhone" placeholder="Phone number">
+<input id="aEmail" placeholder="Email">
+<input id="aFacebook" placeholder="Facebook page">
+<button onclick="saveInfo()">SAVE INFORMATION</button>
+
+<hr>
+
+<h3>Add Church Leader</h3>
+<input id="leaderName" placeholder="Full name">
+<input id="leaderRole" placeholder="Position / title">
+<input id="leaderPhoto" placeholder="Photo URL (https://...)">
+<textarea id="leaderBio" placeholder="Short biography"></textarea>
+<button onclick="addItem('leaders')">ADD LEADER</button>
+<div id="manageLeaders"></div>
+
+<hr>
+
+<h3>Add Church Activity / Department</h3>
+<input id="activityName" placeholder="Activity or department">
+<textarea id="activityDescription" placeholder="Description"></textarea>
+<button onclick="addItem('activities')">ADD ACTIVITY</button>
+<div id="manageActivities"></div>
+
+<hr>
+
+<h3>Add Song Leader</h3>
+<input id="musicName" placeholder="Full name">
+<input id="musicRole" placeholder="Role in music ministry">
+<input id="musicPhoto" placeholder="Photo URL">
+<button onclick="addItem('music')">ADD SONG LEADER</button>
+<div id="manageMusic"></div>
+
+<hr>
+
+<h3>Add Programme / Event</h3>
+<input id="eventName" placeholder="Programme name">
+<input id="eventDate" type="date">
+<input id="eventTime" placeholder="Time">
+<input id="eventVenue" placeholder="Venue">
+<textarea id="eventDescription" placeholder="Programme details"></textarea>
+<button onclick="addItem('events')">PUBLISH PROGRAMME</button>
+<div id="manageEvents"></div>
+
+<hr>
+
+<h3>Publish Announcement</h3>
+<input id="announcementTitle" placeholder="Announcement title">
+<textarea id="announcementBody" placeholder="Announcement details"></textarea>
+<button onclick="addItem('announcements')">PUBLISH ANNOUNCEMENT</button>
+<div id="manageAnnouncements"></div>
+
+<hr>
+
+<h3>Add Gallery Photo</h3>
+<input id="galleryTitle" placeholder="Photo caption">
+<input id="galleryURL" placeholder="Photo URL">
+<button onclick="addItem('gallery')">ADD PHOTO</button>
+<div id="manageGallery"></div>
+
+<hr>
+
+<h3>Add Sermon / Audio</h3>
+<input id="sermonTitle" placeholder="Sermon title">
+<input id="sermonSpeaker" placeholder="Preacher">
+<input id="sermonURL" placeholder="Audio URL">
+<button onclick="addItem('sermons')">ADD SERMON</button>
+<div id="manageSermons"></div>
+
+<hr>
+
+<h3>Add Testimony</h3>
+<input id="testimonyName" placeholder="Name (optional)">
+<textarea id="testimonyText" placeholder="Testimony"></textarea>
+<button onclick="addItem('testimonies')">PUBLISH TESTIMONY</button>
+<div id="manageTestimonies"></div>
+
+<hr>
+<h3>Prayer Requests</h3>
+<div id="managePrayers"></div>
+
+<button onclick="logout()">LOG OUT</button>
+</div>
+</section>
+
+<footer>
+<h3>PARADISE ASSEMBLY CHURCH</h3>
+<p>WORSHIP • FELLOWSHIP • EVANGELISM</p>
+<p>© 2026 Paradise Assembly Church</p>
+</footer>
+
+<script>
+
+// DEMONSTRATION ONLY.
+// This is NOT secure authentication.
+// Replace with Firebase Authentication before public launch.
+const ADMIN_USER="admin";
+const ADMIN_PASS="Prince@123";
+
+const defaults={
+ name:"PARADISE ASSEMBLY CHURCH",
+ motto:"WORSHIP • FELLOWSHIP • EVANGELISM",
+ about:"Welcome to Paradise Assembly Church.",
+ vision:"To be provided by church leadership.",
+ mission:"To be provided by church leadership.",
+ history:"Church history will be provided.",
+ location:"Apesika, Ghana",
+ phone:"To be provided",
+ email:"To be provided",
+ facebook:"To be provided"
+};
+
+function load(key,fallback){
+ try{
+  const data=localStorage.getItem(key);
+  return data?JSON.parse(data):fallback;
+ }catch(e){return fallback}
+}
+
+let info=load("pac_info",defaults);
+let leaders=load("pac_leaders",[]);
+let activities=load("pac_activities",[]);
+let music=load("pac_music",[]);
+let events=load("pac_events",[]);
+let announcements=load("pac_announcements",[]);
+let gallery=load("pac_gallery",[]);
+let sermons=load("pac_sermons",[]);
+let testimonies=load("pac_testimonies",[]);
+let prayers=load("pac_prayers",[]);
+
+function save(key,data){
+ localStorage.setItem(key,JSON.stringify(data));
+}
+
+function esc(v){
+ const d=document.createElement("div");
+ d.textContent=String(v??"");
+ return d.innerHTML;
+}
+
+function safeURL(v){
+ try{
+  const u=new URL(v);
+  return ["https:","http:"].includes(u.protocol)?u.href:"";
+ }catch(e){return ""}
+}
+
+function photo(v){
+ const url=safeURL(v);
+ return url?`<img class="photo" src="${esc(url)}" alt="Church photo" loading="lazy">`:
+ "<div class='card'>Photo not yet uploaded</div>";
+}
+
+function display(){
+ churchName.textContent=info.name;
+ motto.textContent=info.motto;
+ aboutText.textContent=info.about;
+ vision.textContent=info.vision;
+ mission.textContent=info.mission;
+ history.textContent=info.history;
+ contactName.textContent=info.name;
+ location.textContent=info.location;
+ phone.textContent=info.phone;
+ email.textContent=info.email;
+ facebook.textContent=info.facebook;
+
+ render("leaders",leaders,x=>`
+ <div class="card profile">${photo(x.photo)}
+ <h3>${esc(x.name)}</h3><p>${esc(x.role)}</p><p>${esc(x.bio)}</p></div>`);
+
+ render("activities",activities,x=>`
+ <div class="card"><h3>${esc(x.name)}</h3>
+ <p>${esc(x.description)}</p></div>`);
+
+ render("music",music,x=>`
+ <div class="card profile">${photo(x.photo)}
+ <h3>${esc(x.name)}</h3><p>${esc(x.role)}</p></div>`);
+
+ render("events",events,x=>`
+ <div class="card"><h3>${esc(x.name)}</h3>
+ <p>Date: ${esc(x.date)}</p><p>Time: ${esc(x.time)}</p>
+ <p>Venue: ${esc(x.venue)}</p><p>${esc(x.description)}</p></div>`);
+
+ render("announcements",announcements,x=>`
+ <div class="card"><h3>${esc(x.title)}</h3><p>${esc(x.body)}</p></div>`);
+
+ render("gallery",gallery,x=>`
+ <div class="card">${photo(x.url)}<p>${esc(x.title)}</p></div>`);
+
+ render("sermons",sermons,x=>{
+ const url=safeURL(x.url);
+ return `<div class="card"><h3>${esc(x.title)}</h3>
+ <p>Speaker: ${esc(x.speaker)}</p>
+ ${url?`<audio controls style="width:100%" src="${esc(url)}"></audio>`:"Audio not uploaded"}</div>`;
+ });
+
+ render("testimonies",testimonies,x=>`
+ <div class="card"><p>${esc(x.text)}</p><small>${esc(x.name)}</small></div>`);
+
+ if(adminPanel.style.display==="block")adminDisplay();
+}
+
+function render(id,data,template){
+ document.getElementById(id+"List").innerHTML=
+ data.map(template).join("")||"<p>Information will be updated soon.</p>";
+}
+
+function showAdmin(){
+ loginPanel.style.display=sessionStorage.getItem("pac_admin")==="yes"?"none":"block";
+ adminPanel.style.display=sessionStorage.getItem("pac_admin")==="yes"?"block":"none";
+}
+
+function login(){
+ if(username.value===ADMIN_USER&&password.value===ADMIN_PASS){
+  sessionStorage.setItem("pac_admin","yes");
+  loginPanel.style.display="none";
+  adminPanel.style.display="block";
+  fillInfo();
+  adminDisplay();
+ }else error.textContent="Incorrect login details.";
+}
+
+function authorised(){
+ if(sessionStorage.getItem("pac_admin")!=="yes"){
+  alert("Please log in first.");
+  return false;
+ }
+ return true;
+}
+
+function fillInfo(){
+ aName.value=info.name;
+ aMotto.value=info.motto;
+ aAbout.value=info.about;
+ aVision.value=info.vision;
+ aMission.value=info.mission;
+ aHistory.value=info.history;
+ aLocation.value=info.location;
+ aPhone.value=info.phone;
+ aEmail.value=info.email;
+ aFacebook.value=info.facebook;
+}
+
+function saveInfo(){
+ if(!authorised())return;
+ info={
+  name:aName.value,motto:aMotto.value,about:aAbout.value,
+  vision:aVision.value,mission:aMission.value,
+  history:aHistory.value,location:aLocation.value,
+  phone:aPhone.value,email:aEmail.value,facebook:aFacebook.value
+ };
+ save("pac_info",info);display();
+ alert("Information saved.");
+}
+
+const fields={
+ leaders:["leaderName","leaderRole","leaderPhoto","leaderBio"],
+ activities:["activityName","activityDescription"],
+ music:["musicName","musicRole","musicPhoto"],
+ events:["eventName","eventDate","eventTime","eventVenue","eventDescription"],
+ announcements:["announcementTitle","announcementBody"],
+ gallery:["galleryTitle","galleryURL"],
+ sermons:["sermonTitle","sermonSpeaker","sermonURL"],
+ testimonies:["testimonyName","testimonyText"]
+};
+
+function addItem(type){
+ if(!authorised())return;
+ const ids=fields[type];
+ const values=ids.map(id=>document.getElementById(id).value.trim());
+ if(!values[0])return alert("Enter the required title or name.");
+ const obj={};
+ if(type==="leaders")Object.assign(obj,{name:values[0],role:values[1],photo:values[2],bio:values[3]});
+ if(type==="activities")Object.assign(obj,{name:values[0],description:values[1]});
+ if(type==="music")Object.assign(obj,{name:values[0],role:values[1],photo:values[2]});
+ if(type==="events")Object.assign(obj,{name:values[0],date:values[1],time:values[2],venue:values[3],description:values[4]});
+ if(type==="announcements")Object.assign(obj,{title:values[0],body:values[1]});
+ if(type==="gallery")Object.assign(obj,{title:values[0],url:values[1]});
+ if(type==="sermons")Object.assign(obj,{title:values[0],speaker:values[1],url:values[2]});
+ if(type==="testimonies")Object.assign(obj,{name:values[0],text:values[1]});
+
+ const collections={
+ leaders,activities,music,events,announcements,gallery,sermons,testimonies
+ };
+ collections[type].unshift(obj);
+ save("pac_"+type,collections[type]);
+ ids.forEach(id=>document.getElementById(id).value="");
+ display();
+ adminDisplay();
+}
+
+function adminDisplay(){
+ const groups={leaders,activities,music,events,announcements,gallery,sermons,testimonies};
+ Object.entries(groups).forEach(([type,data])=>{
+  document.getElementById("manage"+type[0].toUpperCase()+type.slice(1)).innerHTML=
+  data.map((x,i)=>`
+  <div class="card">
+  ${esc(x.name||x.title)}
+  <button onclick="removeItem('${type}',${i})">DELETE</button>
+  </div>`).join("");
+ });
+ document.getElementById("managePrayers").innerHTML=prayers.map(p=>`
+ <div class="card"><b>${esc(p.name)}</b><p>${esc(p.phone)}</p>
+ <p>${esc(p.text)}</p>
+ <button onclick="removePrayer(${p.id})">DELETE</button></div>`).join("")||"No prayer requests.";
+}
+
+function removeItem(type,i){
+ if(!authorised())return;
+ if(!confirm("Delete this item?"))return;
+ const groups={leaders,activities,music,events,announcements,gallery,sermons,testimonies};
+ groups[type].splice(i,1);
+ save("pac_"+type,groups[type]);
+ display();
+ adminDisplay();
+}
+
+function submitPrayer(e){
+ e.preventDefault();
+ const p={id:Date.now(),name:prayerName.value,phone:prayerPhone.value,text:prayerText.value};
+ prayers.unshift(p);
+ save("pac_prayers",prayers);
+ e.target.reset();
+ alert("Prayer request saved on this device. Online submission requires the secure database setup.");
+}
+
+function removePrayer(id){
+ if(!authorised())return;
+ prayers=prayers.filter(p=>p.id!==id);
+ save("pac_prayers",prayers);
+ adminDisplay();
+}
+
+function logout(){
+ sessionStorage.removeItem("pac_admin");
+ adminPanel.style.display="none";
+ loginPanel.style.display="block";
+ password.value="";
+}
+
+display();
+</script>
+</body>
+</html>
+
